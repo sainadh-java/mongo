@@ -1,0 +1,58 @@
+First, you install Homebrew. 
+# Installs Homebrew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+Second, find the MongoDB tap.
+------------------------------
+brew tap mongodb/brew
+------------------------------
+
+Third, install MongoDB.
+------------------------------
+brew install mongodb-community
+------------------------------
+
+Below is the process before MacOS Catalina: 
+
+Before you can use MongoDB, you need to create a /data/db folder on your computer to use MongoDB. You can create this folder with the following command:
+sudo mkdir -p /data/db
+You also need to give permissions to use it:
+sudo chown -R `id -un` /data/db
+
+Below is the process from MacOS Catalina onwards:
+Apple created a new Volume in Catalina for security purposes. If you’re on Catalina, you need to create the /data/db folder in System/Volumes/Data.
+Use this command:
+sudo mkdir -p /System/Volumes/Data/data/db
+Then, use this command to give permissions:
+sudo chown -R `id -un` /System/Volumes/Data/data/db
+
+In the past, I can run the mongod command to start MongoDB. This no longer works out for the box from MongoDB v4.2.3 onwards.
+The best way to start MongoDB now is via brew services.
+Starting MongoDB
+Use this command:
+brew services run mongodb-community
+
+MongoDB will start as a background service.
+You can use start instead of run. start will start MongoDB automatically when you login into your Macbook. I prefer run since I don’t want MongoDB to be running all the time.
+
+Checking if MongoDB is running
+Use this command:
+brew services list
+Homebrew will list all running services. If MongoDB is running, mongodb-community will have a status set to started.
+Mongodb-community has status set to started.
+The Mongo Shell
+If MongoDB is running, you should be able to access the Mongo shell with the mongo command.
+mongo
+
+Stopping MongoDB
+Use this command:
+brew services stop mongodb-community
+Homebrew will stop MongoDB and let you know.
+Stopped MongoDB
+Aliases to make these easier
+It’s a chore typing brew services run mongodb-community every time I want to start MongoDB.
+I created some aliases to make things easier for me. Here are my aliases:
+alias mongod='brew services run mongodb-community'
+alias mongod-status='brew services list'
+alias mongod-stop='brew services stop mongodb-community'
+
